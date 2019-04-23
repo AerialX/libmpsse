@@ -18,7 +18,6 @@
 
 #include "mpsse.h"
 #include "support.h"
-#include "config.h"
 
 /* List of known FT2232-based devices */
 struct vid_pid supported_devices[] = { 
@@ -133,7 +132,12 @@ struct mpsse_context *OpenIndex(int vid, int pid, enum modes mode, int freq, int
 			ftdi_set_interface(&mpsse->ftdi, interface);
 
 			/* Open the specified device */
+#if 0
 			if(ftdi_usb_open_desc_index(&mpsse->ftdi, vid, pid, description, serial, index) == 0)
+#else
+extern int ftdi_usb_open_dev_hacky(struct ftdi_context*);
+            if (ftdi_usb_open_dev_hacky(&mpsse->ftdi) == 0)
+#endif
 			{
 				mpsse->mode = mode;
 				mpsse->vid = vid;
@@ -1264,7 +1268,7 @@ char Version(void)
 	int major = 0, minor = 0;
 	char version = 0, *version_string = NULL, *decimal_ptr = NULL;
 
-	version_string = strdup(PACKAGE_VERSION);
+	version_string = strdup("1.0.0");
 	if(version_string)
 	{
 		decimal_ptr = strchr(version_string, '.');

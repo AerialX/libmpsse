@@ -6,6 +6,7 @@
  */
 
 #include <string.h>
+#include <stdlib.h>
 
 #if LIBFTDI1 == 1
 #include <libftdi1/ftdi.h>
@@ -65,8 +66,10 @@ void set_timeouts(struct mpsse_context *mpsse, int timeout)
 {
 	if(mpsse->mode)
         {
+#if 0
                 mpsse->ftdi.usb_read_timeout = timeout;
                 mpsse->ftdi.usb_write_timeout = timeout;
+#endif
         }
 
 	return;
